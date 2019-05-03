@@ -1,11 +1,11 @@
-# Maxence Mottard' Webpack Configurations
+# React Webpack Configurations
 
 ![npm (scoped)](https://img.shields.io/npm/v/@maxencemottard/webpack-react.svg)
 
 ## Install
 
 ```
-$ npm install @maxencemottard/webpack
+$ npm i @maxencemottard/webpack-react
 ```
 
 ## Usage
