@@ -1,0 +1,6 @@
+module.exports = {
+    htmlEntryPoint: './index.html', // Default './index.html'
+    jsxEntryPoint: './src/index.js', // Defailt './src/index.js',
+    outputDirectoryName: 'public', // Default 'dist'
+    env: {}
+}
