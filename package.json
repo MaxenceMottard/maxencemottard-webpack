@@ -1,7 +1,7 @@
 {
   "name": "@maxencemottard/webpack-react",
-  "version": "0.2.1",
-  "description": "",
+  "version": "0.2.4",
+  "description": "Configuring Webpack for React with Babel 7 and Webpack 4",
   "bin": {
     "webpack-react": "bin.js"
   },
