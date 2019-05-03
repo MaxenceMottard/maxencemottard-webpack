@@ -1,10 +1,9 @@
 {
-  "name": "@maxencemottard/webpack",
-  "version": "0.2.0",
+  "name": "@maxencemottard/webpack-react",
+  "version": "0.2.1",
   "description": "",
-  "main": "index.js",
   "bin": {
-    "maxence": "./bin/main.js"
+    "webpack-react": "bin.js"
   },
   "scripts": {},
   "author": "Maxence Mottard",
