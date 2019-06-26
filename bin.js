@@ -10,16 +10,19 @@ process.on('unhandledRejection', err => {
 
 const commandArgs = process.argv.slice(2)
 
-const reactConf = path.resolve(__dirname, './webpack.config.js')
+const webpackConf = path.resolve(__dirname, './webpack.config.js')
 
 switch (commandArgs[0]) {
+    case 'dev-server':
+        shell.exec(`cross-env NODE_ENV=development webpack-dev-server --config ${webpackConf}`)
+        break
     case 'dev':
-        shell.exec(`cross-env NODE_ENV=development webpack-dev-server --config ${reactConf}`)
+        shell.exec(`cross-env NODE_ENV=development webpack --config ${webpackConf}`)
         break
     case 'build':
-        shell.exec(`cross-env NODE_ENV=production webpack --config ${reactConf}`)
+        shell.exec(`cross-env NODE_ENV=production webpack --config ${webpackConf}`)
         break
     default:
-        console.log('Please specify an argument build/dev')
+        console.log('Please specify an argument : build, dev or dev-server')
         break
 }

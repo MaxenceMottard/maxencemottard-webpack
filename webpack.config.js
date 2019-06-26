@@ -8,6 +8,8 @@ const FolderCleaning = require('clean-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const Uglify = require('uglifyjs-webpack-plugin')
 const babelConfig = require('./babel.config')
+const ManifestPlugin = require('webpack-manifest-plugin');
+
 
 const configPath = path.resolve('./config.js')
 // TODO Write the documentation for this config.
@@ -15,12 +17,15 @@ const configObject = fs.existsSync(configPath) ? require(configPath) : {}
 
 const NODE_ENV = JSON.stringify(process.env.NODE_ENV)
 
+console.log(NODE_ENV)
+
 let config = {
     mode: process.env.NODE_ENV,
-    entry: path.resolve(configObject.jsxEntryPoint ? configObject.jsxEntryPoint : './src/index.js'),
+    watch: NODE_ENV === "development",
+    entry: configObject.entries ? configObject.entries : {},
     output: {
         path: path.resolve(`./${configObject.outputDirectoryName ? configObject.outputDirectoryName : 'dist'}` ),
-        filename: '[name].[hash:8].js',
+        filename: configObject.chunk ? '[name].[hash:8].js' : '[name].js',
         publicPath: "/"
     },
     module: {
@@ -79,10 +84,6 @@ let config = {
             filename: NODE_ENV === "development" ? '[name].css' : '[name].[hash:8].css',
             chunkFilename: NODE_ENV === "development" ? '[name].css' : '[name].[hash:8].css',
         }),
-        new HtmlWebpackPlugin({
-            filename: 'index.html',
-            template: path.resolve(configObject.htmlEntryPoint ? configObject.htmlEntryPoint : './index.html')
-        }),
         new FolderCleaning([configObject.outputDirectoryName ? configObject.outputDirectoryName : 'dist'], {
             root: path.resolve('./'),
             verbose: true,
@@ -96,6 +97,25 @@ if (NODE_ENV === "development") {
             sourceMap: true
         })
     )
+} else {
+    config.plugins.push(
+        new ManifestPlugin()
+    )
+}
+
+if(configObject.copyHtmlFiles && Array.isArray(configObject.copyHtmlFiles)) {
+    configObject.copyHtmlFiles.forEach( copyObject => {
+        if (!copyObject.filePath || !copyObject.fileName) {
+            return
+        }
+
+        config.plugins.push(
+            new HtmlWebpackPlugin({
+                filename: copyObject.fileName,
+                template: path.resolve(copyObject.filePath)
+            })
+        )
+    })
 }
 
 module.exports = config
